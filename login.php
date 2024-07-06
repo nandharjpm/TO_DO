@@ -5,7 +5,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Login</title>
-    <link rel="stylesheet" href="../css/style.css">
+    <link rel="stylesheet" href="css/style.css">
 </head>
 
 <body>
@@ -15,7 +15,7 @@
         </ul>
     </div>
     <div class="cont-1">
-        <form action="login.php" method="post">
+        <form action="" method="post" id="login">
             <div class="cont-2">
                 <label for="email">Email :</label><br>
                 <input type="email" name="email" id="email" value="<?php if (!empty($mail)) {
@@ -30,13 +30,38 @@
                                                                         echo $_COOKIE['remember_pwd'];
                                                                     } ?>"><br><br>
                 <input type="checkbox" name="remember" id="remember"><label for="remember">Remember me</label><br>
-                <a href="home.php"><input type="submit" value="submit" class="sub" name="submit"></a>
-
+                <a href="home.php"><input type="submit" id="submit" value="submit" class="sub" name="submit"></a>-
             </div>
         </form>
     </div>
-</body>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.5/jquery.validate.js"></script>
 
+    <script>
+        jQuery("#login").validate({
+            rules: {
+                email: {
+                    required: true,
+                    email: true,
+                },
+                pwd: {
+                    required: true,
+                    minlength: 6
+                }
+            },
+            messages: {
+                email: {
+                    required: "Email is Required",
+                    email: "Invalid Email"
+                },
+                pwd:{
+                    required:"Password is required",
+                    minlength:"Password should be atleast minimum 6 characters"
+                }
+            }
+        })
+    </script>
+</body>
 </html>
 <?php
 
@@ -46,13 +71,11 @@ if (isset($_POST['submit'])) {
     $mail = $_POST['email'];
     $pwd = $_POST['pwd'];
     if ($mail == "praveen08@gmail.com" && $pwd = "12345678") {
-            
-            header("location:admin/admin.php");
-            session_start();
-            $_SESSION['user'] = "yes";
-          
-        }
-    else {
+
+        header("location:admin/admin.php");
+        session_start();
+        $_SESSION['user'] = "yes";
+    } else {
         $sql = "SELECT * FROM register WHERE mail='$mail'";
         $result = mysqli_query($con, $sql);
         $user = mysqli_fetch_array($result, MYSQLI_ASSOC);

@@ -50,12 +50,6 @@ $r = mysqli_query($con,$fetch);
                     $mail= $row['mail'];
                     $work = $row['work'];
 
-
-
-                    
-
-
-
                     echo '<tr>
                     <td>'.$id.'</td>
                     <td>'.$ename.'</td>
